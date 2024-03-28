@@ -14,10 +14,14 @@ toc: true
 1. 관리자 모드로 명령프롬프트 창을 실행합니다.
 
 2. 복사할 폴더로 이동합니다.
-> cd C:\test\html
+```shell
+cd C:\test\html
+```
 
 3. mklink /d [[display될 폴더명]] [[복사해야 하는 폴더]]
-> mklink /d css C:\test\css
+```shell
+mklink /d css C:\test\css
+```
 
 ## 결과화면
 ![심볼릭링크결과](https://github.com/yelo-o/yelo-o.github.io/assets/64743180/ced55ce8-8525-4a3d-a409-ca8def14a031)
