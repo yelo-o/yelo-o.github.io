@@ -8,16 +8,19 @@ toc: true
 
 # 초기의 웹 프로그래밍
 웹 프로그래밍 초기에는 **Client** 와 **WebServer** 가 서로 요청과 응답을 주고 받는 구조였습니다. 클라이언트가 웹 페이지를 요청하면 웹 서버는 정적인 파일만 줄 수 있었죠.
+
 ![](https://velog.velcdn.com/images/yelosta/post/ea371cad-45e2-4e50-aeef-bb3db172bfc4/image.png)
 하지만 지금 현재의 웹사이트들을 보면 알 수 있듯이 동적인 웹 페이지가 필요했습니다.
 사용자의 요청에 따른 응답을 다양한 언어로 구현된 프로그래밍과 통신을 할 수 있어야 하게 된 것이었죠.
 그렇게 만들어진 것이 CGI 구현체입니다.
 ## CGI(Common Gateway Interface) 
 HTTP 프로토콜 기반의 웹 서버와 다양한 언어로 구현된 프로그램 간의 데이터를 교환하는 표준 스펙, 인터페이스입니다.
+
 ![](https://velog.velcdn.com/images/yelosta/post/e0dc7c6d-80d2-4f01-9fd9-c9de21c40fc6/image.png)
 다만, 여기에는 두 가지의 문제점이 있었습니다.
 - 매 요청이 들어올 때마다 프로세스가 생성
 - 또 그 프로세스마다 구현체가 생성
+
 ![](https://velog.velcdn.com/images/yelosta/post/fe99c88f-34fb-4fbb-84fa-6b5014090506/image.png)
 
 
@@ -53,6 +56,7 @@ Web Container는 Sevlet Container 라고도 불리며, 하는 일은 아래와 �
 # Dispatcher Servlet
 스프링에서는 서블릿을 Dispatcher Servlet을 통해 사용하고 있습니다.
 전체적인 구조는 아래와 같습니다.
+
 ![](https://velog.velcdn.com/images/yelosta/post/8d3699c9-4106-4dd3-a59b-8ab956e05693/image.png)
 
 ### Dispatcher Servlet 등록
