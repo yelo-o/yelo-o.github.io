@@ -111,11 +111,13 @@ HandlerMapping에서 Controller를 찾았었죠? 찾은 Controller의 메소드�
 ![](https://velog.velcdn.com/images/yelosta/post/cff72f78-1d4e-40dc-8b4e-6dfbaddc7fc2/image.png)
 
 String 타입으로 준 이름을 가지고 View Resolver가 실제 view를 찾아줍니다. 
+
 ![](https://velog.velcdn.com/images/yelosta/post/2ab91340-77b7-4c86-aacc-0b00af32b067/image.png)
 
 그리고 나서 Controller에서 받은 model을 View에 심어 다시 view를 Dispatcher Servlet으로 돌려줍니다.
 
 ![](https://velog.velcdn.com/images/yelosta/post/f9b7b9a8-c810-4fd6-9991-292adc719ab7/image.png)
+
 마지막으로 클라이언트에 응답을 보내게 됩니다.
 
 # 정리
