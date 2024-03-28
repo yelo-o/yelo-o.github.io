@@ -58,6 +58,7 @@ Web Container는 Sevlet Container 라고도 불리며, 하는 일은 아래와 �
 ### Dispatcher Servlet 등록
 ![](https://velog.velcdn.com/images/yelosta/post/fa01c262-95b6-4fae-b01a-eb010bc36933/image.png)
 모든 요청은 Dispatcher Servlet 으로 받습니다.
+
 ```web.xml
 <servlet>
     <servlet-name>dispatcher</servlet-name>
@@ -69,11 +70,13 @@ Web Container는 Sevlet Container 라고도 불리며, 하는 일은 아래와 �
     <url-pattern>/</url-pattern>
 </servlet-mapping>
 ```
+
 Dispatcher Servlet 역시 서블릿이기 때문에 web.xml 파일에 등록을 해줘야 합니다. web.xml 파일에 서블릿을 등록하면 서블릿 설정파일이 생성됩니다.
 > 설정 파일 : WEB-INF/servlet이름-servlet.xml
 
 ### WEB-INF/servlet이름-servlet.xml
 - **매핑 방법 #1 (기본)** : BeanNameHandlerMapping
+
 ```xml
 <beans>
     <bean name="/video" class="org.mobileCloud.controller.VideoController">
@@ -83,6 +86,7 @@ Dispatcher Servlet 역시 서블릿이기 때문에 web.xml 파일에 등록을 
 ```
 
 - **매핑 방법 #2 (가장 많이 쓰는)** : DefaultAnnotationHandlerMapping
+
 ```java
 @Controller
 public class VideoController {
