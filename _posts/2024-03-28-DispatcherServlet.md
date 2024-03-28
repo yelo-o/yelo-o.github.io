@@ -121,6 +121,7 @@ public class VideoController {
 HandlerMapping에서 Controller를 찾았었죠? 찾은 Controller의 메소드를 호출해서 결과를 model and view 형태로 바꿔줍니다.
 - model : Controller의 처리 결과
 - view : 결과를 받는 페이지 <- Controller가 String 타입으로 준다.
+
 ![](https://velog.velcdn.com/images/yelosta/post/cff72f78-1d4e-40dc-8b4e-6dfbaddc7fc2/image.png)
 
 String 타입으로 준 이름을 가지고 View Resolver가 실제 view를 찾아줍니다. 
