@@ -10,6 +10,7 @@ toc: true
 웹 프로그래밍 초기에는 **Client** 와 **WebServer** 가 서로 요청과 응답을 주고 받는 구조였습니다. 클라이언트가 웹 페이지를 요청하면 웹 서버는 정적인 파일만 줄 수 있었죠.
 
 ![](https://velog.velcdn.com/images/yelosta/post/ea371cad-45e2-4e50-aeef-bb3db172bfc4/image.png)
+
 하지만 지금 현재의 웹사이트들을 보면 알 수 있듯이 동적인 웹 페이지가 필요했습니다.
 사용자의 요청에 따른 응답을 다양한 언어로 구현된 프로그래밍과 통신을 할 수 있어야 하게 된 것이었죠.
 그렇게 만들어진 것이 CGI 구현체입니다.
@@ -17,6 +18,7 @@ toc: true
 HTTP 프로토콜 기반의 웹 서버와 다양한 언어로 구현된 프로그램 간의 데이터를 교환하는 표준 스펙, 인터페이스입니다.
 
 ![](https://velog.velcdn.com/images/yelosta/post/e0dc7c6d-80d2-4f01-9fd9-c9de21c40fc6/image.png)
+
 다만, 여기에는 두 가지의 문제점이 있었습니다.
 - 매 요청이 들어올 때마다 프로세스가 생성
 - 또 그 프로세스마다 구현체가 생성
@@ -26,12 +28,14 @@ HTTP 프로토콜 기반의 웹 서버와 다양한 언어로 구현된 프로�
 
 ### 1. 프로세스 → 스레드
 ![](https://velog.velcdn.com/images/yelosta/post/b4c57b06-af56-4930-9904-e607e55f4913/image.png)
+
 프로세스를 스레드로 변경하였습니다.
 메모리를 공유하는 Thread에 비해서 Process는 각자의 메모리 공간을 지니기 때문에 상대적으로 무겁고 생성되는데 시간이 오래걸립니다.
 즉, 이는 많은 처리 시간을 소모하게 만듭니다.
 
 ### 2. Servlet의 도입
 ![](https://velog.velcdn.com/images/yelosta/post/1496d576-663c-4050-9445-9a7c2a42acc1/image.png)
+
 Servlet은 웹 애플리케이션을 개발하기 위한 표준 스펙이자 인터페이스입니다. CGI 구현체와 마찬가지로 CGI 규약을 따르지만 이를 Servlet Container에게 위임하였고 Container와 Servlet 구현체 간에는 규칙이 존재합니다.
 - Servlet 인스턴스는 Servlet Container를 통해 등록되고 사이클이 관리됩니다.
 - Serlvet은 모든 요청을 받을 수 있으며, 각 요청마다 스레드가 생성되거나 기존에 생성된 스레드를 스레드 풀에서 꺼내와 동작합니다.
@@ -42,7 +46,9 @@ Servlet은 웹 애플리케이션을 개발하기 위한 표준 스펙이자 인
 Web Container는 Sevlet Container 라고도 불리며, 하는 일은 아래와 같습니다.
 - Servlet 라이프 사이클 관리
 - Client의 웹 요청을 해석하여 적정한 Servlet 구현체의 메소드를 ServletRequest, ServletResponse 매개변수와 함께 호출
+
 ![](https://velog.velcdn.com/images/yelosta/post/440b416b-7f30-43e4-8f06-9be39c0507b3/image.png)
+
 브라우저를 통해 들어오는 요청을 확인해서 Web Container가 web.xml 파일에 등록된 내용을 토대로 알맞은 Servlet 객체로 라우팅해줍니다.
 
 
@@ -61,6 +67,7 @@ Web Container는 Sevlet Container 라고도 불리며, 하는 일은 아래와 �
 
 ### Dispatcher Servlet 등록
 ![](https://velog.velcdn.com/images/yelosta/post/fa01c262-95b6-4fae-b01a-eb010bc36933/image.png)
+
 모든 요청은 Dispatcher Servlet 으로 받습니다.
 
 ```web.xml
@@ -104,11 +111,13 @@ public class VideoController {
 
 ### 요청에 따라 적절한 Controller 찾기
 ![](https://velog.velcdn.com/images/yelosta/post/50c3db67-b409-4adc-a7d9-607761aac8c8/image.png)
+
 등록이 완료되었다면 찾아서 사용할 수도 있어야겠죠?
 받은 요청을 HandlerMapping을 통해서 확인하고 적절한 Controller를 찾습니다. 찾는 방법은 Spring framework에서 제공해주며, 여기서 자세히는 다루지 않겠습니다.
 
 ### Handler(Controller) 메소드 호출
 ![](https://velog.velcdn.com/images/yelosta/post/4c23bed4-e5d8-456d-8000-d6c75b6a8e8d/image.png)
+
 HandlerMapping에서 Controller를 찾았었죠? 찾은 Controller의 메소드를 호출해서 결과를 model and view 형태로 바꿔줍니다.
 - model : Controller의 처리 결과
 - view : 결과를 받는 페이지 <- Controller가 String 타입으로 준다.
