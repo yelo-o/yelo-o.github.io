@@ -87,27 +87,27 @@ Dispatcher Servlet 역시 서블릿이기 때문에 web.xml 파일에 등록을 
 
 ### WEB-INF/servlet이름-servlet.xml
 - **매핑 방법 #1 (기본)** : BeanNameHandlerMapping
-
-```xml
-<beans>
-    <bean name="/video" class="org.mobileCloud.controller.VideoController">
-        ...
-    </bean>
-</beans>
-```
+  
+  ```xml
+  <beans>
+      <bean name="/video" class="org.mobileCloud.controller.VideoController">
+          ...
+      </bean>
+  </beans>
+  ```
 
 - **매핑 방법 #2 (가장 많이 쓰는)** : DefaultAnnotationHandlerMapping
 
-```java
-@Controller
-public class VideoController {
-   
-    @RequestMapping("/video")
-    public String do() {
-        // 처리 로직 
-    }
-}
-```
+  ```java
+  @Controller
+  public class VideoController {
+     
+      @RequestMapping("/video")
+      public String do() {
+          // 처리 로직 
+      }
+  }
+  ```
 
 ### 요청에 따라 적절한 Controller 찾기
 ![](https://velog.velcdn.com/images/yelosta/post/50c3db67-b409-4adc-a7d9-607761aac8c8/image.png)
