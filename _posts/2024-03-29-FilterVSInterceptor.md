@@ -72,10 +72,13 @@ public class GenericFilter implements javax.servlet.Filter {
 
 javax.servlet.Filter 를 상속받고 있는 Filter 예제입니다.
 - _init_
+
 	FilterConfig(필터 정보)를 담고 있는 객체를 파라미터로 받는 메소드입니다. xml에 등록한 정보들이 FilterConfig에 담고 있어서 초기화 시에 사용이 가능합니다.
 - _doFilter_
+
 	분리된 관심사항이 있는 메소드이며, 파라미터를 보면 FilterChain(Filter가 여러 개모여 형성된 체인)이 있습니다. **chain.doFilter(request, response)** 메소드는 다음 Filter로 넘어가기 위해 꼭 명시를 해줘야하는 메소드입니다.
 - _destory_
+
 	init이 생성될 때 한번만 호출되는 메소드라면 destory는 소멸될 때 한번만 호출됩니다. 
     ex) 필터 소멸 → 커넥션 풀 닫힘 → WAS 닫힘
 
