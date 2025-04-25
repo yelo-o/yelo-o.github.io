@@ -4,6 +4,10 @@ title:  "Filter VS Interceptor"
 categories: coding
 tag: [spring, backend]
 toc: true
+toc_sticky: true
+author_profile: false
+sidebar:
+    nav: "docs"
 ---
 
 ## 필터링이 왜 필요한가?

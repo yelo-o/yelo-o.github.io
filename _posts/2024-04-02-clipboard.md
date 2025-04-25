@@ -4,6 +4,7 @@ title:  "Clipboard"
 categories: coding
 tag: [javascript, chrome, IE11]
 toc: true
+toc_sticky: true
 author_profile: false
 sidebar:
     nav: "docs"

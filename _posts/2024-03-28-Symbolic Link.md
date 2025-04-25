@@ -4,6 +4,7 @@ title:  "Symbolic Link"
 categories: coding
 tag: [windowOS, linux]
 toc: true
+toc_sticky: true
 author_profile: false
 sidebar:
     nav: "docs"

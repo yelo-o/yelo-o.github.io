@@ -4,6 +4,10 @@ title:  "Servlet과 Dispatcher Servlet"
 categories: coding
 tag: [backend, servlet, spring]
 toc: true
+toc_sticky: true
+author_profile: false
+sidebar:
+    nav: "docs"
 ---
 
 # 초기의 웹 프로그래밍

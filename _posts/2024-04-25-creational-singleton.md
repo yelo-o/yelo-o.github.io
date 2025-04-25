@@ -6,6 +6,8 @@ tag: [coding, javascript, singleton, design-pattern]
 toc: true
 toc_sticky: true
 author_profile: false
+sidebar:
+    nav: "docs"
 ---
 
 ## 싱글톤 패턴이란?

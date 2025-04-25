@@ -5,6 +5,9 @@ categories: coding
 tag: [web, html, javascript]
 toc: true
 toc_sticky: true
+author_profile: false
+sidebar:
+    nav: "docs"
 ---
 
 웹 애플리케이션에서 파일 업로드는 사용자 경험에서 중요한 부분을 차지합니다. 사진 공유, 문서 제출, 데이터 분석 등 다양한 기능에서 파일 업로드 기능은 필수적입니다. 이 글에서는 웹 환경에서의 파일 업로드 메커니즘, File API의 활용, 그리고 운영체제 파일 시스템과의 상호작용에 대해 알아보겠습니다.
