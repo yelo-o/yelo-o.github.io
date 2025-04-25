@@ -4,6 +4,7 @@ title:  "웹 환경에서의 파일 업로드: File API와 운영체제 파일 �
 categories: coding
 tag: [web, html, javascript]
 toc: true
+toc_sticky: true
 ---
 
 # 웹 환경에서의 파일 업로드: File API와 운영체제 파일 시스템의 이해
