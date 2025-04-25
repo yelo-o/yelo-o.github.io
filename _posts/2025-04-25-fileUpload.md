@@ -38,11 +38,11 @@ fileInput.addEventListener('change', function(e) {
   const files = e.target.files; // FileList 객체
   
   for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    console.log(`파일명: ${file.name}`);
-    console.log(`크기: ${file.size} 바이트`);
-    console.log(`타입: ${file.type}`);
-    console.log(`마지막 수정일: ${file.lastModified}`);
+      const file = files[i];
+      console.log(`파일명: ${file.name}`);
+      console.log(`크기: ${file.size} 바이트`);
+      console.log(`타입: ${file.type}`);
+      console.log(`마지막 수정일: ${file.lastModified}`);
   }
 });
 ```
@@ -53,8 +53,8 @@ fileInput.addEventListener('change', function(e) {
 
 ```html
 <form action="/upload" method="post" enctype="multipart/form-data">
-  <input type="file" name="fileToUpload" id="fileInput">
-  <input type="submit" value="업로드" name="submit">
+    <input type="file" name="fileToUpload" id="fileInput">
+    <input type="submit" value="업로드" name="submit">
 </form>
 ```
 
@@ -69,23 +69,23 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
   const file = fileInput.files[0];
   
   if (!file) {
-    alert('파일을 선택해주세요');
-    return;
+      alert('파일을 선택해주세요');
+      return;
   }
   
   const formData = new FormData();
   formData.append('file', file);
   
   try {
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData
-    });
+      const response = await fetch('/api/upload', {
+          method: 'POST',
+          body: formData
+      });
     
-    const result = await response.json();
-    console.log('성공:', result);
+      const result = await response.json();
+      console.log('성공:', result);
   } catch (error) {
-    console.error('오류:', error);
+      console.error('오류:', error);
   }
 });
 ```
@@ -99,32 +99,32 @@ const dropZone = document.getElementById('drop-zone');
 
 // 드래그 이벤트 핸들러
 dropZone.addEventListener('dragover', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  this.classList.add('drag-over');
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.add('drag-over');
 });
 
 dropZone.addEventListener('dragleave', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  this.classList.remove('drag-over');
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
 });
 
 // 드롭 이벤트 처리
 dropZone.addEventListener('drop', function(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  this.classList.remove('drag-over');
-  
-  const files = e.dataTransfer.files;
-  handleFiles(files);
+    e.preventDefault();
+    e.stopPropagation();
+    this.classList.remove('drag-over');
+    
+    const files = e.dataTransfer.files;
+    handleFiles(files);
 });
 
 function handleFiles(files) {
-  for (let i = 0; i < files.length; i++) {
-    // 파일 처리 로직
-    uploadFile(files[i]);
-  }
+    for (let i = 0; i < files.length; i++) {
+        // 파일 처리 로직
+        uploadFile(files[i]);
+    }
 }
 ```
 
@@ -156,25 +156,25 @@ function handleFiles(files) {
 // 파일 열기 대화상자 표시하기
 async function getFileHandle() {
   try {
-    const [fileHandle] = await window.showOpenFilePicker();
-    return fileHandle;
+      const [fileHandle] = await window.showOpenFilePicker();
+      return fileHandle;
   } catch (error) {
-    console.error('파일을 열 수 없습니다:', error);
+      console.error('파일을 열 수 없습니다:', error);
   }
 }
 
 // 파일 내용 읽기
 async function readFile(fileHandle) {
-  const file = await fileHandle.getFile();
-  const contents = await file.text();
-  return contents;
+    const file = await fileHandle.getFile();
+    const contents = await file.text();
+    return contents;
 }
 
 // 파일에 쓰기
 async function writeFile(fileHandle, contents) {
-  const writable = await fileHandle.createWritable();
-  await writable.write(contents);
-  await writable.close();
+    const writable = await filehandle.createwritable();
+    await writable.write(contents);
+    await writable.close();
 }
 ```
 
@@ -237,24 +237,24 @@ function uploadActiveXFile() {
 const fileInput = document.getElementById('fileInput');
 
 fileInput.addEventListener('change', function(e) {
-  const file = e.target.files[0];
+    const file = e.target.files[0];
   
-  // 파일명만 접근 가능, 경로 정보는 보안상 삭제됨
-  console.log("파일명: " + file.name); // "document.pdf" (경로 없음)
+    // 파일명만 접근 가능, 경로 정보는 보안상 삭제됨
+    console.log("파일명: " + file.name); // "document.pdf" (경로 없음)
   
-  // 파일 메타데이터 접근
-  console.log("크기: " + file.size);
-  console.log("타입: " + file.type);
-  console.log("수정일: " + file.lastModified);
+    // 파일 메타데이터 접근
+    console.log("크기: " + file.size);
+    console.log("타입: " + file.type);
+    console.log("수정일: " + file.lastModified);
   
-  // 파일 내용은 FileReader로만 읽을 수 있고
-  // 웹 애플리케이션 컨텍스트 내에서만 처리 가능
-  const reader = new FileReader();
-  reader.onload = function(event) {
-    // 파일 내용을 읽을 수 있지만 로컬 파일 시스템에는 직접 저장 불가
-    const contents = event.target.result;
-  };
-  reader.readAsText(file);
+    // 파일 내용은 FileReader로만 읽을 수 있고
+    // 웹 애플리케이션 컨텍스트 내에서만 처리 가능
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        // 파일 내용을 읽을 수 있지만 로컬 파일 시스템에는 직접 저장 불가
+        const contents = event.target.result;
+    };
+    reader.readAsText(file);
 });
 ```
 
@@ -276,24 +276,24 @@ fileInput.addEventListener('change', function(e) {
 
 ```javascript
 async function editFile() {
-  try {
-    // 사용자의 명시적 동의와 함께 파일 핸들 획득
-    const [fileHandle] = await window.showOpenFilePicker();
-    
-    // 파일 내용 읽기
-    const file = await fileHandle.getFile();
-    let contents = await file.text();
-    
-    // 내용 수정
-    contents = modifyContent(contents);
-    
-    // 사용자가 선택한 파일에만 쓰기 가능
-    const writable = await fileHandle.createWritable();
-    await writable.write(contents);
-    await writable.close();
-  } catch (err) {
-    console.error(err);
-  }
+    try {
+        // 사용자의 명시적 동의와 함께 파일 핸들 획득
+        const [fileHandle] = await window.showOpenFilePicker();
+        
+        // 파일 내용 읽기
+        const file = await fileHandle.getFile();
+        let contents = await file.text();
+        
+        // 내용 수정
+        contents = modifyContent(contents);
+        
+        // 사용자가 선택한 파일에만 쓰기 가능
+        const writable = await fileHandle.createWritable();
+        await writable.write(contents);
+        await writable.close();
+    } catch (err) {
+        console.error(err);
+    }
 }
 ```
 
@@ -333,11 +333,11 @@ async function editFile() {
 
 ```javascript
 function validateFileType(file) {
-  const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
-  if (!allowedTypes.includes(file.type)) {
-    throw new Error('지원되지 않는 파일 형식입니다');
-  }
-  return true;
+    const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
+    if (!allowedTypes.includes(file.type)) {
+        throw new Error('지원되지 않는 파일 형식입니다');
+    }
+    return true;
 }
 ```
 
@@ -345,10 +345,10 @@ function validateFileType(file) {
 
 ```javascript
 function validateFileSize(file, maxSizeInBytes) {
-  if (file.size > maxSizeInBytes) {
-    throw new Error(`파일 크기는 ${maxSizeInBytes / 1024 / 1024}MB 이하여야 합니다`);
-  }
-  return true;
+    if (file.size > maxSizeInBytes) {
+        throw new Error(`파일 크기는 ${maxSizeInBytes / 1024 / 1024}MB 이하여야 합니다`);
+    }
+    return true;
 }
 ```
 
@@ -364,19 +364,19 @@ function validateFileSize(file, maxSizeInBytes) {
 
 ```javascript
 async function uploadInChunks(file, chunkSize = 1024 * 1024) {
-  const chunks = Math.ceil(file.size / chunkSize);
-  let uploadId = await initializeUpload(file.name, chunks);
-  
-  for (let i = 0; i < chunks; i++) {
-    const start = i * chunkSize;
-    const end = Math.min(file.size, start + chunkSize);
-    const chunk = file.slice(start, end);
+    const chunks = Math.ceil(file.size / chunkSize);
+    let uploadId = await initializeUpload(file.name, chunks);
     
-    await uploadChunk(chunk, i, uploadId);
-    updateProgress((i + 1) / chunks * 100);
-  }
-  
-  return await finalizeUpload(uploadId);
+    for (let i = 0; i < chunks; i++) {
+        const start = i * chunkSize;
+        const end = Math.min(file.size, start + chunkSize);
+        const chunk = file.slice(start, end);
+        
+        await uploadChunk(chunk, i, uploadId);
+        updateProgress((i + 1) / chunks * 100);
+    }
+    
+    return await finalizeUpload(uploadId);
 }
 ```
 
@@ -396,42 +396,42 @@ JavaScript에서는 여러 압축 라이브러리를 사용할 수 있습니다:
 
 ```javascript
 function optimizeImage(file, maxWidth, maxHeight, quality = 0.8) {
-  return new Promise((resolve) => {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      const img = new Image();
-      img.onload = function() {
-        // 크기 계산
-        let width = img.width;
-        let height = img.height;
-        
-        if (width > maxWidth) {
-          height = (height * maxWidth) / width;
-          width = maxWidth;
-        }
-        
-        if (height > maxHeight) {
-          width = (width * maxHeight) / height;
-          height = maxHeight;
-        }
-        
-        // 캔버스에 그리기
-        const canvas = document.createElement('canvas');
-        canvas.width = width;
-        canvas.height = height;
-        
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        
-        // 최적화된 이미지 생성
-        canvas.toBlob((blob) => {
-          resolve(new File([blob], file.name, { type: 'image/jpeg' }));
-        }, 'image/jpeg', quality);
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                // 크기 계산
+                let width = img.width;
+                let height = img.height;
+                
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width;
+                    width = maxWidth;
+                }
+                
+                if (height > maxHeight) {
+                    width = (width * maxHeight) / height;
+                    height = maxHeight;
+                }
+                
+                // 캔버스에 그리기
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                // 최적화된 이미지 생성
+                canvas.toBlob((blob) => {
+                    resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+                }, 'image/jpeg', quality);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 }
 ```
 
