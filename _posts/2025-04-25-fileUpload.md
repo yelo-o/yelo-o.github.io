@@ -15,8 +15,9 @@ toc: true
 2. [기본적인 파일 업로드 구현하기](#기본적인-파일-업로드-구현하기)
 3. [드래그 앤 드롭으로 파일 업로드 향상시키기](#드래그-앤-드롭으로-파일-업로드-향상시키기)
 4. [운영체제 파일 시스템과의 상호작용](#운영체제-파일-시스템과의-상호작용)
-5. [보안 고려사항](#보안-고려사항)
-6. [최신 트렌드와 기술](#최신-트렌드와-기술)
+5. [IE와 ActiveX 환경 vs. 모던 브라우저의 파일 업로드](#ie와-activex-환경-vs-모던-브라우저의-파일-업로드)
+6. [보안 고려사항](#보안-고려사항)
+7. [최신 트렌드와 기술](#최신-트렌드와-기술)
 
 ## 웹 브라우저의 File API 소개
 
@@ -177,6 +178,153 @@ async function writeFile(fileHandle, contents) {
 }
 ```
 
+## IE와 ActiveX 환경 vs. 모던 브라우저의 파일 업로드
+
+웹 파일 업로드의 역사는 Internet Explorer(IE)와 ActiveX의 시대부터 현대 브라우저까지 큰 변화를 겪었습니다. 이 두 환경 간의 차이점을 이해하는 것은 현대 웹 개발의 보안 모델과 제약사항을 이해하는 데 도움이 됩니다.
+
+### ActiveX 기반 파일 업로드 (레거시)
+
+Internet Explorer와 ActiveX 기술은 보다 네이티브에 가까운 파일 시스템 접근을 제공했습니다:
+
+```html
+<!-- ActiveX 컨트롤을 사용한 파일 업로더 예시 -->
+<object id="fileUploader" classid="clsid:BD96C556-65A3-11D0-983A-00C04FC29E36" width="0" height="0">
+    <param name="MaxFileSize" value="1048576">
+    <param name="AllowMultipleFiles" value="1">
+</object>
+```
+
+```javascript
+// ActiveX를 통한 파일 정보 접근
+function uploadActiveXFile() {
+    var uploader = document.getElementById('fileUploader');
+    uploader.SelectFile();
+    
+    // 전체 파일 경로 획득 (C:\Users\...\file.txt)
+    var fullPath = uploader.FileName;
+    console.log("전체 파일 경로: " + fullPath);
+    
+    // 파일 시스템 정보 획득
+    var fileSize = uploader.FileSize;
+    var lastModified = uploader.LastModified;
+    
+    // ActiveX를 통한 로컬 파일 직접 읽기 가능
+    var fileContents = uploader.ReadFile();
+    
+    // 파일 저장 위치 지정 가능
+    uploader.SaveAs("C:\\Downloads\\saved_file.txt");
+}
+```
+
+#### ActiveX 파일 업로드의 특징:
+
+1. **완전한 파일 경로 접근**: 사용자 컴퓨터의 전체 파일 경로를 획득할 수 있었습니다. (예: `C:\Users\Username\Documents\file.txt`)
+
+2. **OS 수준의 파일 조작**: 로컬 파일 시스템에 직접 파일을 쓰거나 읽을 수 있었습니다.
+
+3. **폴더 접근**: 특정 폴더 내의 모든 파일 목록을 스캔하는 것이 가능했습니다.
+
+4. **확장 기능**: 파일 압축/해제, 암호화, 이미지 편집 등의 기능을 클라이언트 측에서 수행할 수 있었습니다.
+
+5. **시스템 정보 접근**: 파일 생성 날짜, 마지막 접근 시간 등의 메타데이터에 접근할 수 있었습니다.
+
+### 모던 브라우저의 파일 업로드
+
+현대 웹 브라우저는 보안 모델이 크게 강화되어 파일 시스템에 대한 접근이 제한적입니다:
+
+```javascript
+// 모던 브라우저에서의 파일 업로드
+const fileInput = document.getElementById('fileInput');
+
+fileInput.addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  
+  // 파일명만 접근 가능, 경로 정보는 보안상 삭제됨
+  console.log("파일명: " + file.name); // "document.pdf" (경로 없음)
+  
+  // 파일 메타데이터 접근
+  console.log("크기: " + file.size);
+  console.log("타입: " + file.type);
+  console.log("수정일: " + file.lastModified);
+  
+  // 파일 내용은 FileReader로만 읽을 수 있고
+  // 웹 애플리케이션 컨텍스트 내에서만 처리 가능
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    // 파일 내용을 읽을 수 있지만 로컬 파일 시스템에는 직접 저장 불가
+    const contents = event.target.result;
+  };
+  reader.readAsText(file);
+});
+```
+
+#### 모던 브라우저 파일 업로드의 제한사항:
+
+1. **경로 정보 제거**: 보안상의 이유로 파일의 전체 경로 정보는 제거되고 파일명만 접근 가능합니다. (`C:\path\to\file.txt`가 아닌 `file.txt`만 제공)
+
+2. **샌드박스 환경**: 웹 애플리케이션은 브라우저의 샌드박스 내에서 실행되어 OS 수준의 파일 시스템 직접 접근이 불가능합니다.
+
+3. **사용자 동의 기반**: 모든 파일 접근은 사용자의 명시적인 동의(파일 선택 등)가 필요합니다.
+
+4. **제한된 파일 조작**: 파일 내용 읽기는 가능하지만, 로컬 파일 시스템에 직접 쓰기는 불가능합니다.
+
+5. **폴더 접근 제한**: 특정 폴더의 전체 내용을 스캔하는 것이 기본적으로 불가능합니다.
+
+### 새로운 대안: File System Access API
+
+최신 웹 표준은 사용자 동의를 기반으로 제한된 파일 시스템 접근을 제공합니다:
+
+```javascript
+async function editFile() {
+  try {
+    // 사용자의 명시적 동의와 함께 파일 핸들 획득
+    const [fileHandle] = await window.showOpenFilePicker();
+    
+    // 파일 내용 읽기
+    const file = await fileHandle.getFile();
+    let contents = await file.text();
+    
+    // 내용 수정
+    contents = modifyContent(contents);
+    
+    // 사용자가 선택한 파일에만 쓰기 가능
+    const writable = await fileHandle.createWritable();
+    await writable.write(contents);
+    await writable.close();
+  } catch (err) {
+    console.error(err);
+  }
+}
+```
+
+이 API는 사용자 동의 하에 제한된 파일 시스템 접근을 제공하지만, ActiveX가 제공했던 수준의 완전한 파일 시스템 접근과는 여전히 차이가 있습니다.
+
+### 변화의 이유: 보안과 플랫폼 독립성
+
+이러한 변화의 주요 이유는 다음과 같습니다:
+
+1. **보안 강화**: ActiveX의 무제한 파일 시스템 접근은 심각한 보안 위험을 초래했습니다.
+   - 악성 웹사이트가 사용자의 파일 시스템에 접근하여 데이터를 도용하거나 파일을 삭제/변경할 위험이 있었습니다.
+   - 악성코드 실행 위험이 높았습니다.
+
+2. **크로스 플랫폼 호환성**: ActiveX는 Windows와 IE에 종속적이었습니다.
+   - 모던 웹 표준은 모든 운영체제와 브라우저에서 일관된 방식으로 작동합니다.
+
+3. **사용자 프라이버시 보호**: 파일 경로는 사용자 이름과 같은 개인 정보를 포함할 수 있습니다.
+   - 예: `C:\Users\RealName\Documents\personal_file.pdf`
+
+4. **웹 애플리케이션 아키텍처 변화**: 클라이언트-서버 모델에서 서버가 더 많은 처리를 담당하게 되었습니다.
+
+### 레거시 시스템 지원
+
+여전히 일부 기업 환경에서는 ActiveX 기반 시스템이 사용되고 있습니다. 이러한 환경을 지원하는 방법은:
+
+1. **폴백(Fallback) 메커니즘**: 브라우저 기능 감지를 통해 ActiveX 지원 여부를 확인하고 대체 구현 제공
+
+2. **웹 브라우저 확장 프로그램**: 특정 기능을 위한 브라우저 확장 프로그램 개발
+
+3. **데스크톱 어플리케이션 연동**: 웹 애플리케이션과 연동되는 별도의 데스크톱 애플리케이션 제공
+
 ## 보안 고려사항
 
 파일 업로드는 보안 측면에서 여러 위험을 내포하고 있습니다:
@@ -234,6 +382,16 @@ async function uploadInChunks(file, chunkSize = 1024 * 1024) {
 
 2. **클라이언트 측 압축**: 대용량 파일의 경우 업로드 전에 클라이언트 측에서 압축하여 전송 시간을 단축합니다.
 
+웹 애플리케이션에서 대용량 파일을 처리할 때 클라이언트 측 압축은 매우 효과적인 전략입니다. 이 기술은 네트워크 대역폭 사용을 줄이고, 업로드 속도를 향상시키며, 서버 부하를 감소시킵니다.
+
+### 압축 라이브러리
+
+JavaScript에서는 여러 압축 라이브러리를 사용할 수 있습니다:
+
+- **CompressionStream API**: 최신 브라우저에서 지원하는 웹 표준 API입니다.
+- **pako.js**: zlib 알고리즘을 JavaScript로 구현한 라이브러리입니다.
+- **JSZip**: ZIP 형식의 파일을 생성하고 처리할 수 있는 라이브러리입니다.
+
 3. **이미지 최적화**: 이미지 업로드 시 클라이언트 측에서 크기 조정과 최적화를 수행합니다.
 
 ```javascript
@@ -282,5 +440,7 @@ function optimizeImage(file, maxWidth, maxHeight, quality = 0.8) {
 ## 결론
 
 웹 환경에서의 파일 업로드는 단순한 기능처럼 보이지만, 효율적이고 안전하며 사용자 친화적인 구현을 위해서는 여러 측면을 고려해야 합니다. File API와 운영체제 파일 시스템에 대한 이해는 개발자가 더 강력한 웹 애플리케이션을 구축하는 데 도움이 됩니다.
+
+웹 기술의 발전 과정에서 IE와 ActiveX 시대의 무제한적 파일 시스템 접근에서 현대 브라우저의 제한적이지만 안전한 접근 방식으로 변화했습니다. 이러한 변화는 보안과 크로스 플랫폼 호환성을 크게 향상시켰으며, 새로운 웹 표준은 계속해서 안전하면서도 강력한 파일 접근 방법을 개발하고 있습니다.
 
 최신 웹 기술의 발전으로 파일 업로드 기능은 계속해서 향상되고 있으며, 이는 웹 애플리케이션이 데스크톱 애플리케이션과 유사한 수준의 기능을 제공할 수 있게 해줍니다. 적절한 보안 조치와 사용자 경험을 고려한 구현은 웹 애플리케이션의 품질을 크게 향상시킬 것입니다.
