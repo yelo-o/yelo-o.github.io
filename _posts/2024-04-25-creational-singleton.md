@@ -5,7 +5,6 @@ title:  "싱글톤 패턴(생성형 디자인 패턴)"
 categories: coding
 tag: [coding, javascript, singleton, design-pattern]
 toc: true
-toc_sticky: true
 author_profile: false
 ---
 # 싱글톤 패턴 (Singleton Pattern) 가이드
